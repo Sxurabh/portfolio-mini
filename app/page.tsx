@@ -1,4 +1,3 @@
-import { Avatar, Separator } from "@heroui/react";
 import Image from "next/image";
 import {
 	DownloadIcon,
@@ -15,15 +14,15 @@ export default function Page() {
 	return (
 		<section className="w-full">
 			<header className="mb-6 flex flex-row items-center gap-4">
-				<Avatar className="h-12 w-12" size="lg">
+				<div className="h-12 w-12 shrink-0 overflow-hidden rounded-full">
 					<Image
-						className="avatar__image"
+						className="h-full w-full object-cover"
 						width={100}
 						height={100}
 						src="/avatar.png"
 						alt="Junior Garcia"
 					/>
-				</Avatar>
+				</div>
 				<div className="flex flex-col">
 					<h1 className="text-lg font-medium tracking-tight">Saurabh Kirve</h1>
 					<p className="text-sm font-medium text-muted">
@@ -118,7 +117,7 @@ export default function Page() {
 					GitHub
 				</a>
 			</div>
-			<Separator className="my-6" />
+			<hr className="my-6 border-border" />
 			<div className="mb-12 space-y-4">
 				<h2 className="text-sm font-semibold">Projects</h2>
 				<div className="grid gap-4 -mx-2">

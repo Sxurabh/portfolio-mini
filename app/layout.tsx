@@ -1,16 +1,11 @@
 import "./global.css";
 import type { Metadata } from "next";
-import { Inter } from "next/font/google";
+import { GeistSans } from "geist/font/sans";
 import { cx } from "tailwind-variants";
 import { Analytics } from "@vercel/analytics/react";
 import { SpeedInsights } from "@vercel/speed-insights/next";
 import { baseUrl, author, metadata as siteMetadata, social } from "./config";
 import { ThemeProvider } from "./components/theme-provider";
-
-const inter = Inter({
-	subsets: ["latin"],
-	variable: "--font-inter",
-});
 
 export const metadata: Metadata = {
 	metadataBase: new URL(baseUrl),
@@ -67,13 +62,13 @@ export default function RootLayout({
 		<html
 			lang="en"
 			dir="ltr"
-			className={inter.variable}
+			className={GeistSans.variable}
 			suppressHydrationWarning
 		>
 			<body
 				className={cx(
 					"bg-background text-foreground antialiased mt-8",
-					inter.className
+					GeistSans.className
 				)}
 			>
 				<ThemeProvider>
