@@ -1,8 +1,11 @@
 import { Avatar, Separator } from "@heroui/react";
 import Image from "next/image";
 import {
+	DownloadIcon,
 	EnvelopeIcon,
 	GitHubIcon,
+	InstagramIcon,
+	LinkedInIcon,
 	LinkIcon,
 	TwitterIcon,
 } from "./components/icons";
@@ -50,7 +53,7 @@ export default function Page() {
 				<p>
 					Previously I worked at{" "}
 					<a
-						href="https://deel.com"
+						href="https://eclerx.com/"
 						target="_blank"
 						className="link text-inherit text-base"
 						rel="noopener noreferrer"
@@ -62,12 +65,42 @@ export default function Page() {
 			</div>
 			<div className="-ml-1 flex gap-3 flex-wrap">
 				<a
-					className="button button--tertiary button--sm"ƒƒ
+					className="button button--tertiary button--sm"
 					href={`mailto:${social.email}`}
 				>
 					<EnvelopeIcon />
 					Email
 				</a>
+				<a
+					className="button button--tertiary button--sm"
+					href="/saurabh-kirve-cv.pdf"
+					download
+				>
+					<DownloadIcon />
+					Download CV
+				</a>
+				{social.linkedin.url && (
+					<a
+						className="button button--tertiary button--sm"
+						href={social.linkedin.url}
+						target="_blank"
+						rel="noopener noreferrer"
+					>
+						<LinkedInIcon />
+						LinkedIn
+					</a>
+				)}
+				{social.instagram.url && (
+					<a
+						className="button button--tertiary button--sm"
+						href={social.instagram.url}
+						target="_blank"
+						rel="noopener noreferrer"
+					>
+						<InstagramIcon />
+						Instagram
+					</a>
+				)}
 				<a
 					className="button button--tertiary button--sm"
 					href={social.twitter.url}
@@ -91,41 +124,21 @@ export default function Page() {
 				<div className="grid gap-4 -mx-2">
 					<a
 						className="bg-surface shadow-surface dark:bg-surface-secondary p-4 rounded-2xl gap-1"
-						href="https://v3.heroui.com"
+						href="https://github.com/Sxurabh/JobPortalScraper"
 						target="_blank"
 						rel="noopener noreferrer"
 					>
 						<span className="flex items-center gap-1">
-							HeroUI
+							Job Portal Scraper
 							<LinkIcon className="text-sm text-muted/60" />
 						</span>
 						<p className="text-sm text-muted">
-							modern UI library for web and mobile, built to help you move fast,
-							stay consistent, and deliver delightful user experiences.
-						</p>
-					</a>
-					<a
-						className="bg-surface-secondary dark:bg-surface p-4 rounded-2xl gap-1"
-						href="https://tailwind-variants.org"
-						target="_blank"
-						rel="noopener noreferrer"
-					>
-						<span className="flex items-center gap-1">
-							Tailwind Variants
-							<LinkIcon className="text-sm text-muted/60" />
-						</span>
-						<p className="text-sm text-muted">
-							A powerful variant API for Tailwind CSS, bringing a structured
-							approach to design systems and UI components.
+							A personal job discovery dashboard that watches career portals, keeps your job history organized, and sends matching roles to Telegram.
 						</p>
 					</a>
 				</div>
 			</div>
-			{/* Coming soon */}
-			{/* <div className="space-y-8">
-				<h2 className="text-sm font-semibold">Writing</h2>
-				<BlogPosts />
-			</div> */}
+			
 		</section>
 	);
 }

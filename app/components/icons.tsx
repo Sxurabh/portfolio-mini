@@ -73,6 +73,71 @@ export const TwitterIcon = (props: SVGProps<SVGSVGElement>) => {
 	);
 };
 
+export const LinkedInIcon = (props: SVGProps<SVGSVGElement>) => {
+	const { className, ...restProps } = props;
+
+	return (
+		<svg
+			aria-hidden="true"
+			className={cn("text-2xl", className)}
+			fill="currentColor"
+			focusable="false"
+			height="1em"
+			role="presentation"
+			viewBox="0 0 24 24"
+			width="1em"
+			xmlns="http://www.w3.org/2000/svg"
+			{...restProps}
+		>
+			<path d="M20.45 20.45h-3.56v-5.57c0-1.33-.03-3.04-1.85-3.04-1.85 0-2.13 1.44-2.13 2.94v5.67H9.35V9h3.42v1.56h.05c.48-.9 1.64-1.85 3.37-1.85 3.6 0 4.27 2.37 4.27 5.46v6.28ZM5.34 7.43a2.06 2.06 0 1 1 0-4.12 2.06 2.06 0 0 1 0 4.12Zm1.78 13.02H3.56V9h3.56v11.45ZM22.22 0H1.77C.79 0 0 .77 0 1.72v20.56c0 .95.79 1.72 1.77 1.72h20.45c.98 0 1.78-.77 1.78-1.72V1.72C24 .77 23.2 0 22.22 0Z" />
+		</svg>
+	);
+};
+
+export const InstagramIcon = (props: SVGProps<SVGSVGElement>) => {
+	const { className, ...restProps } = props;
+
+	return (
+		<svg
+			aria-hidden="true"
+			className={cn("text-2xl", className)}
+			fill="none"
+			focusable="false"
+			height="1em"
+			role="presentation"
+			viewBox="0 0 24 24"
+			width="1em"
+			xmlns="http://www.w3.org/2000/svg"
+			{...restProps}
+		>
+			<rect x="3" y="3" width="18" height="18" rx="5" stroke="currentColor" strokeWidth="2" />
+			<circle cx="12" cy="12" r="4" stroke="currentColor" strokeWidth="2" />
+			<circle cx="17.5" cy="6.5" r="1" fill="currentColor" />
+		</svg>
+	);
+};
+
+export const DownloadIcon = (props: SVGProps<SVGSVGElement>) => {
+	const { className, ...restProps } = props;
+
+	return (
+		<svg
+			aria-hidden="true"
+			className={cn("text-2xl", className)}
+			fill="none"
+			focusable="false"
+			height="1em"
+			role="presentation"
+			viewBox="0 0 24 24"
+			width="1em"
+			xmlns="http://www.w3.org/2000/svg"
+			{...restProps}
+		>
+			<path d="M12 3v11m0 0 4-4m-4 4-4-4M5 17v3h14v-3" stroke="currentColor" strokeLinecap="round" strokeLinejoin="round" strokeWidth="1.8" />
+		</svg>
+	);
+};
+
 export const EnvelopeIcon = (props: SVGProps<SVGSVGElement>) => {
 	const { className, ...restProps } = props;
 

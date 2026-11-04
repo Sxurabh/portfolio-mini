@@ -12,6 +12,12 @@ export const siteConfig = {
 			handle: "@sxurxbh",
 			url: "https://twitter.com/sxurxbh",
 		},
+		linkedin: {
+			url: "https://www.linkedin.com/in/saurabhkirve",
+		},
+		instagram: {
+			url: "https://www.instagram.com/whosaurabh",
+		},
 		github: {
 			handle: "Sxurabh",
 			url: "https://github.com/Sxurabh",
