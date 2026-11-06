@@ -24,13 +24,10 @@ export function CvActions({
 	isOwner: boolean;
 }) {
 	const router = useRouter();
-	const state = useOverlayState();
 	const inputRef = useRef<HTMLInputElement>(null);
 	const [fileName, setFileName] = useState<string | null>(null);
 	const [error, setError] = useState<string | null>(null);
 	const [isUploading, setIsUploading] = useState(false);
-
-	if (!isOwner) return null;
 
 	const reset = () => {
 		setFileName(null);
@@ -40,10 +37,16 @@ export function CvActions({
 		if (inputRef.current) inputRef.current.value = "";
 	};
 
+	const state = useOverlayState({
+		onOpenChange: (isOpen) => {
+			if (!isOpen) reset();
+		},
+	});
+
+	if (!isOwner) return null;
+
 	const handleOpenChange = (isOpen: boolean) => {
 		state.setOpen(isOpen);
-
-		if (!isOpen) reset();
 	};
 
 	const upload = async () => {
@@ -88,7 +91,7 @@ export function CvActions({
 	};
 
 	return (
-		<Modal>
+		<Modal state={state}>
 			<Button
 				size="sm"
 				variant="tertiary"
@@ -97,7 +100,7 @@ export function CvActions({
 				<UploadIcon className="text-base" />
 				{hasCv ? "Replace CV" : "Upload CV"}
 			</Button>
-			<Modal.Backdrop isOpen={state.isOpen} onOpenChange={handleOpenChange}>
+			<Modal.Backdrop>
 				<Modal.Container size="md">
 					<Modal.Dialog>
 						<Modal.CloseTrigger />

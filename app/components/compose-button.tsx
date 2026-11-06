@@ -27,7 +27,6 @@ async function readError(response: Response) {
 
 export function ComposeButton() {
 	const router = useRouter();
-	const state = useOverlayState();
 	const [subject, setSubject] = useState("");
 	const [body, setBody] = useState("");
 	const [error, setError] = useState<string | null>(null);
@@ -40,10 +39,14 @@ export function ComposeButton() {
 		setIsSending(false);
 	};
 
+	const state = useOverlayState({
+		onOpenChange: (isOpen) => {
+			if (!isOpen) reset();
+		},
+	});
+
 	const handleOpenChange = (isOpen: boolean) => {
 		state.setOpen(isOpen);
-
-		if (!isOpen) reset();
 	};
 
 	const sendMessage = async () => {
@@ -92,7 +95,7 @@ export function ComposeButton() {
 	};
 
 	return (
-		<Modal>
+		<Modal state={state}>
 			<Button
 				aria-label="Write a message"
 				isIconOnly
@@ -102,7 +105,7 @@ export function ComposeButton() {
 			>
 				<SendIcon className="text-base" />
 			</Button>
-			<Modal.Backdrop isOpen={state.isOpen} onOpenChange={handleOpenChange}>
+			<Modal.Backdrop>
 				<Modal.Container size="md">
 					<Modal.Dialog>
 						<Modal.CloseTrigger />

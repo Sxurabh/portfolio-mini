@@ -9,6 +9,7 @@ INVALID_FILE="$(mktemp -t portfolio-cv-invalid.XXXXXX.txt)"
 LARGE_FILE="$(mktemp -t portfolio-cv-large.XXXXXX.pdf)"
 HEADERS_FILE="$(mktemp -t portfolio-cv-headers.XXXXXX)"
 BODY_FILE="$(mktemp -t portfolio-cv-body.XXXXXX)"
+CV_BACKUP="$(mktemp -t portfolio-cv-backup.XXXXXX.json)"
 
 cleanup() {
 	if [[ -f "$STATE_FILE" ]]; then
@@ -17,7 +18,9 @@ cleanup() {
 		PROBE_MEMBER_ID="${PROBE_MEMBER_ID:-}" \
 		PROBE_OWNER_SESSION_ID="${PROBE_OWNER_SESSION_ID:-}" \
 		PROBE_MEMBER_SESSION_ID="${PROBE_MEMBER_SESSION_ID:-}" \
+		PROBE_CV_BACKUP="$CV_BACKUP" \
 		node --env-file="$ROOT_DIR/.env.local" - <<'NODE' >/dev/null 2>&1 || true
+const fs = await import("node:fs/promises");
 const { Pool } = await import("pg");
 const pool = new Pool({ connectionString: process.env.DATABASE_URL });
 await pool.query('delete from session where id in ($1, $2)', [
@@ -27,22 +30,44 @@ await pool.query('delete from session where id in ($1, $2)', [
 if (process.env.PROBE_MEMBER_ID) {
 	await pool.query('delete from "user" where id = $1', [process.env.PROBE_MEMBER_ID]);
 }
-await pool.query("delete from cv");
+await pool.query("delete from cv where id = 1");
+const backup = JSON.parse(await fs.readFile(process.env.PROBE_CV_BACKUP, "utf8"));
+if (backup) {
+	await pool.query(
+		`insert into cv (id, filename, mime_type, byte_size, data, updated_at)
+		 values (1, $1, $2, $3, $4, $5)`,
+		[
+			backup.filename,
+			backup.mime_type,
+			backup.byte_size,
+			Buffer.from(backup.data, "base64"),
+			backup.updated_at,
+		],
+	);
+}
 await pool.end();
 NODE
 	fi
-	rm -f "$STATE_FILE" "$PDF_FILE" "$INVALID_FILE" "$LARGE_FILE" "$HEADERS_FILE" "$BODY_FILE"
+	rm -f "$STATE_FILE" "$PDF_FILE" "$INVALID_FILE" "$LARGE_FILE" "$HEADERS_FILE" "$BODY_FILE" "$CV_BACKUP"
 }
 trap cleanup EXIT
 
-node --env-file="$ROOT_DIR/.env.local" - "$STATE_FILE" <<'NODE'
+node --env-file="$ROOT_DIR/.env.local" - "$STATE_FILE" "$CV_BACKUP" <<'NODE'
 const fs = await import("node:fs/promises");
 const crypto = await import("node:crypto");
 const { Pool } = await import("pg");
 const { signCookieValue } = await import("./node_modules/better-call/dist/crypto.mjs");
 
 const stateFile = process.argv[2];
+const backupFile = process.argv[3];
 const pool = new Pool({ connectionString: process.env.DATABASE_URL });
+const existingCv = await pool.query(
+	`select id, filename, mime_type, byte_size,
+		encode(data, 'base64') as data, updated_at
+	 from cv where id = 1 limit 1`,
+);
+await fs.writeFile(backupFile, JSON.stringify(existingCv.rows[0] ?? null));
+await pool.query("delete from cv where id = 1");
 const owner = await pool.query('select id from "user" where lower(email) = lower($1) limit 1', [
 	process.env.ALLOWED_EMAILS.split(",")[0].trim(),
 ]);

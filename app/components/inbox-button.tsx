@@ -130,7 +130,7 @@ export function InboxButton({ unreadCount }: { unreadCount: number }) {
 
 	return (
 		<div className="relative">
-			<Modal>
+			<Modal state={state}>
 				<Button
 					aria-label={unreadCount > 0 ? `Inbox, ${unreadCount} unread` : "Inbox"}
 					className="relative"
@@ -152,7 +152,7 @@ export function InboxButton({ unreadCount }: { unreadCount: number }) {
 						</Chip>
 					)}
 				</Button>
-				<Modal.Backdrop isOpen={state.isOpen} onOpenChange={state.setOpen}>
+				<Modal.Backdrop>
 					<Modal.Container size="lg" scroll="inside">
 						<Modal.Dialog>
 							<Modal.CloseTrigger />
