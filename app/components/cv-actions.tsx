@@ -103,14 +103,14 @@ export function CvActions({
 			<Modal.Backdrop>
 				<Modal.Container size="md">
 					<Modal.Dialog>
-						<Modal.CloseTrigger />
+						<Modal.CloseTrigger className="right-5 top-5" />
 						<Modal.Header>
 							<Modal.Heading>{hasCv ? "Replace CV" : "Upload CV"}</Modal.Heading>
 							<p className="text-sm text-muted">
 								PDF only, up to 4 MB. Uploading replaces the current CV immediately.
 							</p>
 						</Modal.Header>
-						<Modal.Body className="gap-4">
+						<Modal.Body className="flex flex-col gap-4">
 							<input
 								accept="application/pdf"
 								aria-label="CV file"
@@ -130,15 +130,20 @@ export function CvActions({
 								</p>
 							)}
 						</Modal.Body>
-						<Modal.Footer>
+						<Modal.Footer className="flex-col sm:flex-row">
 							<Button
+								className="w-full sm:w-auto"
 								isDisabled={isUploading}
 								variant="tertiary"
 								onPress={() => handleOpenChange(false)}
 							>
 								Cancel
 							</Button>
-							<Button isDisabled={isUploading} onPress={upload}>
+							<Button
+								className="w-full sm:w-auto"
+								isDisabled={isUploading}
+								onPress={upload}
+							>
 								{isUploading ? <Spinner aria-label="Uploading CV" /> : "Upload"}
 							</Button>
 						</Modal.Footer>

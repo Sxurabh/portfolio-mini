@@ -155,12 +155,12 @@ export function InboxButton({ unreadCount }: { unreadCount: number }) {
 				<Modal.Backdrop>
 					<Modal.Container size="lg" scroll="inside">
 						<Modal.Dialog>
-							<Modal.CloseTrigger />
+							<Modal.CloseTrigger className="right-5 top-5" />
 							<Modal.Header>
 								<Modal.Heading>Inbox</Modal.Heading>
 								<p className="text-sm text-muted">Messages from portfolio visitors.</p>
 							</Modal.Header>
-							<Modal.Body className="gap-3">
+							<Modal.Body className="flex flex-col gap-3">
 								{error && <p className="text-sm text-danger">{error}</p>}
 								{isLoading ? (
 									<div className="flex justify-center py-8" role="status">
@@ -173,7 +173,7 @@ export function InboxButton({ unreadCount }: { unreadCount: number }) {
 								) : (
 									<div className="flex flex-col gap-2">
 										{messages.map((message) => (
-											<div className="flex gap-2" key={message.id}>
+											<div className="flex items-start gap-2" key={message.id}>
 												<Button
 													className="h-auto min-w-0 flex-1 justify-start whitespace-normal text-left"
 													fullWidth
@@ -205,6 +205,11 @@ export function InboxButton({ unreadCount }: { unreadCount: number }) {
 												</Button>
 												<Button
 													aria-label={`Delete message: ${message.subject}`}
+													className={
+														expandedId === message.id
+															? "mt-1 shrink-0"
+															: "shrink-0 self-center"
+													}
 													isDisabled={deletingId === message.id}
 													isIconOnly
 													size="sm"
@@ -222,15 +227,15 @@ export function InboxButton({ unreadCount }: { unreadCount: number }) {
 									</div>
 								)}
 							</Modal.Body>
-							<Modal.Footer>
-								{messages.length > 0 && expandedId !== null && (
+							{expandedId !== null && messages.length > 0 && (
+								<Modal.Footer>
 									<Link
 										href={`mailto:${messages.find((message) => message.id === expandedId)?.senderEmail ?? ""}`}
 									>
 										Reply by email
 									</Link>
-								)}
-							</Modal.Footer>
+								</Modal.Footer>
+							)}
 						</Modal.Dialog>
 					</Modal.Container>
 				</Modal.Backdrop>

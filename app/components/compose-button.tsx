@@ -108,14 +108,14 @@ export function ComposeButton() {
 			<Modal.Backdrop>
 				<Modal.Container size="md">
 					<Modal.Dialog>
-						<Modal.CloseTrigger />
+						<Modal.CloseTrigger className="right-5 top-5" />
 						<Modal.Header>
 							<Modal.Heading>Write a message</Modal.Heading>
 							<p className="text-sm text-muted">
 								This goes straight to Saurabh&apos;s inbox.
 							</p>
 						</Modal.Header>
-						<Modal.Body className="gap-4">
+						<Modal.Body className="flex flex-col gap-4">
 							<div className="flex flex-col gap-1">
 								<Label htmlFor="message-subject">Subject</Label>
 								<Input
@@ -141,7 +141,7 @@ export function ComposeButton() {
 									value={body}
 									onChange={(event) => setBody(event.target.value)}
 								/>
-								<span className="text-xs text-muted">
+								<span className="self-end text-xs text-muted">
 									{body.length}/{MAX_BODY_LENGTH}
 								</span>
 							</div>
@@ -151,15 +151,20 @@ export function ComposeButton() {
 								</p>
 							)}
 						</Modal.Body>
-						<Modal.Footer>
+						<Modal.Footer className="flex-col sm:flex-row">
 							<Button
+								className="w-full sm:w-auto"
 								isDisabled={isSending}
 								variant="tertiary"
 								onPress={() => handleOpenChange(false)}
 							>
 								Cancel
 							</Button>
-							<Button isDisabled={isSending} onPress={sendMessage}>
+							<Button
+								className="w-full sm:w-auto"
+								isDisabled={isSending}
+								onPress={sendMessage}
+							>
 								{isSending ? <Spinner aria-label="Sending message" /> : "Send message"}
 							</Button>
 						</Modal.Footer>

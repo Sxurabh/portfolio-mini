@@ -85,7 +85,9 @@ export default async function Page() {
 					<EnvelopeIcon />
 					Email
 				</a>
-				{cv ? (
+				{owner ? (
+					<CvActions hasCv={cv !== null} isOwner={owner} />
+				) : cv ? (
 					<a
 						className="button button--tertiary button--sm"
 						href="/api/cv"
@@ -100,7 +102,6 @@ export default async function Page() {
 						CV coming soon
 					</span>
 				)}
-				<CvActions hasCv={cv !== null} isOwner={owner} />
 				{social.linkedin.url && (
 					<a
 						className="button button--tertiary button--sm"
