@@ -8,38 +8,53 @@ import {
 	LinkIcon,
 	TwitterIcon,
 } from "./components/icons";
+import { AuthButtons } from "./components/auth-buttons";
+import { ComposeButton } from "./components/compose-button";
+import { CvActions } from "./components/cv-actions";
+import { InboxButton } from "./components/inbox-button";
 import { social } from "./config";
+import { getCvMeta } from "../lib/cv";
+import { countUnread } from "../lib/messages";
+import { isOwner } from "../lib/session";
 
-export default function Page() {
+export default async function Page() {
+	const [owner, cv] = await Promise.all([isOwner(), getCvMeta()]);
+	const unreadCount = owner ? await countUnread() : 0;
 	return (
 		<section className="w-full">
-			<header className="mb-6 flex flex-row items-center gap-4">
-				<div className="h-12 w-12 shrink-0 overflow-hidden rounded-full">
-					<Image
-						className="h-full w-full object-cover"
-						width={100}
-						height={100}
-						src="/avatar.png"
-						alt="Junior Garcia"
-					/>
-				</div>
-				<div className="flex flex-col">
-					<h1 className="text-lg font-medium tracking-tight">Saurabh Kirve</h1>
-					<p className="text-sm font-medium text-muted">
-						Analyst at{" "}
-						<a
-							className="link text-inherit"
-							href="https://www.straive.com/"
-							target="_blank"
-							rel="noopener noreferrer"
-						>
-							Straive
-						</a>{" "}
+			<header className="mb-6 flex items-start justify-between gap-4">
+				<div className="flex min-w-0 items-center gap-4">
+					<div className="h-12 w-12 shrink-0 overflow-hidden rounded-full">
+						<Image
+							className="h-full w-full object-cover"
+							width={100}
+							height={100}
+							src="/avatar.png"
+							alt="Saurabh Kirve"
+						/>
+					</div>
+					<div className="flex min-w-0 flex-col">
+						<h1 className="text-lg font-medium tracking-tight">Saurabh Kirve</h1>
+						<p className="text-sm font-medium text-muted">
+							Analyst at{" "}
+							<a
+								className="link text-inherit"
+								href="https://www.straive.com/"
+								target="_blank"
+								rel="noopener noreferrer"
+							>
+								Straive
+							</a>{" "}
 
-						- Alternative Investment Operations × Data × Technology
-						
-					</p>
+							
+						</p>
+					</div>
 				</div>
+				<AuthButtons
+					compose={<ComposeButton />}
+					inbox={<InboxButton unreadCount={unreadCount} />}
+					isOwner={owner}
+				/>
 			</header>
 			<div className="mb-6 space-y-4">
 				<p className="text-base text-wrap">
@@ -70,14 +85,22 @@ export default function Page() {
 					<EnvelopeIcon />
 					Email
 				</a>
-				<a
-					className="button button--tertiary button--sm"
-					href="/saurabh-kirve-cv.pdf"
-					download
-				>
-					<DownloadIcon />
-					Download CV
-				</a>
+				{cv ? (
+					<a
+						className="button button--tertiary button--sm"
+						href="/api/cv"
+						download={cv.filename}
+					>
+						<DownloadIcon />
+						Download CV
+					</a>
+				) : (
+					<span className="button button--tertiary button--sm cursor-default opacity-70">
+						<DownloadIcon />
+						CV coming soon
+					</span>
+				)}
+				<CvActions hasCv={cv !== null} isOwner={owner} />
 				{social.linkedin.url && (
 					<a
 						className="button button--tertiary button--sm"
